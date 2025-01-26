@@ -1,9 +1,9 @@
 <?php
   require 'database.php';
   
-  //---------------------------------------- Condition to check that POST value is not empty.
+  //---------------------------------
   if (!empty($_POST)) {
-    //........................................ keep track POST values
+    //.............................
     $id = $_POST['id'];
     $weight = $_POST['weight'];
     $name = $_POST['name'];
@@ -12,13 +12,13 @@
     $led_02 = $_POST['led_02'];
     //........................................
     
-    //........................................ Get the time and date.
+    //................................
     date_default_timezone_set("Asia/Ho_Chi_Minh"); 
     $tm = date("H:i:s");
     $dt = date("Y-m-d");
     //........................................
     
-    //........................................ Updating the data in the table.
+    //.............................
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
  
@@ -26,16 +26,16 @@
     $q = $pdo->prepare($sql);
     $q->execute(array($weight,$name,$status_read_sensor_hx711,$tm,$dt,$id));
     Database::disconnect();
-    //........................................ 
+    //..................................
     
-    //........................................ Entering data into a table.
+    //..................................
     $id_key;
     $board = $_POST['id'];
     $found_empty = false;
     
     $pdo = Database::connect();
     
-    //:::::::: Process to check if "id" is already in use.
+    //:::::::: 
     while ($found_empty == false) {
       $id_key = generate_string_id(10);
      
@@ -49,7 +49,7 @@
     }
     //::::::::
     
-    //:::::::: The process of entering data into a table.
+    //:::::::: 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		$sql = "INSERT INTO esp8266_table_hx711_leds_record (id,board,name,weight,status_read_sensor_hx711,LED_01,LED_02,time,date) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -58,7 +58,7 @@
     //::::::::
     
     Database::disconnect();
-    //........................................ 
+    //.............
   }
  
   function generate_string_id($strength = 16) {
@@ -71,5 +71,5 @@
     }
     return $random_string;
   }
-  //---------------------------------------- 
+  //---------------
 ?>

@@ -154,7 +154,7 @@
       <div class="cards">
         <div class="card header" style="border-radius: 15px;">
             <h3 style="font-size: 0.7rem;">LAST TIME RECEIVED DATA FROM 8266 [ <span id="ESP8266_01_LTRD"></span> ]</h3>
-            <button onclick="window.open('recordtable.php', '_blank');">Open Record Table</button>
+            
             <h3 style="font-size: 0.7rem;"></h3>
         </div>
       </div>

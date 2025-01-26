@@ -94,7 +94,7 @@
           include 'database.php';
           $num = 0;
           $pdo = Database::connect();
-          $sql = 'SELECT * FROM esp8266_table_hx711_leds_record ORDER BY date, time';
+          $sql = 'SELECT * FROM esp8266_record_hx711_luu ORDER BY date, time';
           foreach ($pdo->query($sql) as $row) {
             $date = date_create($row['date']);
             $dateFormat = date_format($date,"d-m-Y");
