@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wi-Fi Networks</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Căn giữa nút trong trang */
+        .center-button {
+            display: flex;
+            justify-content: center;  /* Căn giữa theo chiều ngang */
+            margin-top: 20px;  /* Tạo khoảng cách phía trên nút */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* CSS cho phần đăng nhập */
+        .login-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .login-section form {
+            display: inline-block;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .login-section input {
+            padding: 8px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .login-section button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Wi-Fi Networks</h2>
+
+    <table id="wifiTable">
+        <thead>
+            <tr>
+                <th>SSID</th>
+                <th>BSSID</th>
+                <th>RSSI</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Wi-Fi networks will be inserted here -->
+        </tbody>
+    </table>
+
+    <!-- Nút reset được căn giữa -->
+    <div class="center-button">
+        <button onclick="resetWifiScan()">Reset Wi-Fi Scan</button>
+    </div>
+
+    <!-- Phần đăng nhập -->
+    <div class="login-section">
+        <h3>Đăng nhập</h3>
+        <form id="loginForm" onsubmit="myFunction1(); return false;">
+            <input type="text" id="ssid" placeholder="Nhập SSID" required />
+            <input type="text" id="password" placeholder="Nhập mật khẩu" required />
+            <button type="submit">Kết nối</button>
+        </form>
+    </div>
+
+    <script>
+        async function fetchWifiScanData() {
+            try {
+                const response = await fetch('/wifiscan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+                updateWifiTable(data);
+            } catch (error) {
+                console.error('Error fetching Wi-Fi networks:', error);
+            }
+        }
+
+        function updateWifiTable(wifiNetworks) {
+            const tableBody = document.getElementById('wifiTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';  // Clear existing rows
+            wifiNetworks.forEach(network => {
+                const row = tableBody.insertRow();
+                const ssidCell = row.insertCell(0);
+                const bssidCell = row.insertCell(1);
+                const rssiCell = row.insertCell(2);
+                
+                ssidCell.textContent = network.ssid;
+                bssidCell.textContent = network.bssid;
+                rssiCell.textContent = network.rssi;
+
+                // Thêm sự kiện click vào dòng
+                row.addEventListener('click', () => fillSSIDField(network.ssid));
+            });
+        }
+
+        function myFunction1() {
+            // Lấy giá trị SSID và mật khẩu từ các trường nhập liệu
+            var ssid = document.getElementById('ssid').value;
+            var password = document.getElementById('password').value;
+            if (password.length < 8) {
+            alert("Mật khẩu phải có ít nhất 8 ký tự.");
+            return; // Dừng lại nếu mật khẩu không hợp lệ
+            } else {   
+            var xhttp1 = new XMLHttpRequest();
+            // Cấu hình yêu cầu POST
+            xhttp1.open("POST", "/login", true);
+            xhttp1.setRequestHeader("Content-Type", "application/json");
+            // Gửi thông tin SSID và mật khẩu dưới dạng JSON
+            var data = JSON.stringify({ "ssid": ssid, "password": password });
+            // Gửi dữ liệu
+            xhttp1.send(data);
+            }
+        }
+
+
+        function fillSSIDField(ssid) {
+            // Điền SSID vào trường nhập liệu
+            document.getElementById('ssid').value = ssid;
+        }
+
+        function resetWifiScan() {
+            fetchWifiScanData();
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();  // Ngừng hành động mặc định của form
+
+            const ssid = document.getElementById('ssid').value;
+            const password = document.getElementById('password').value;
+
+            // Hiển thị thông tin đăng nhập (hoặc gửi tới server)
+            console.log('SSID:', ssid);
+            console.log('Mật khẩu:', password);
+        }
+
+        // Gọi hàm để quét Wi-Fi khi trang được tải
+        window.onload = fetchWifiScanData;
+    </script>
+
+</body>
+</html>

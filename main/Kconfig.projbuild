@@ -1,0 +1,57 @@
+menu "Example Configuration"
+
+    config ESP_WIFI_SSID
+        string "WiFi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config ESP_WIFI_PASSWORD
+        string "WiFi Password"
+        default "mypassword"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+    config ESP_MAX_STA_CONN
+        int "Maximal STA connections"
+        default 4
+        help
+            Max number of the STA connects to AP.
+    config EXAMPLE_I2C_ADDR
+        hex "I2C address of PCF8574"
+        default 0x27
+
+    config EXAMPLE_I2C_MASTER_SCL
+        int "SCL GPIO Number"
+        default 5 if IDF_TARGET_ESP8266
+        default 6 if IDF_TARGET_ESP32C3
+        default 19 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        default 4 if IDF_TARGET_ESP32H2
+        help
+            GPIO number for I2C Master clock line.
+
+    config EXAMPLE_I2C_MASTER_SDA
+        int "SDA GPIO Number"
+        default 4 if IDF_TARGET_ESP8266
+        default 5 if IDF_TARGET_ESP32C3
+        default 18 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        default 3 if IDF_TARGET_ESP32H2
+        help
+            GPIO number for I2C Master data line.
+    
+    config EXAMPLE_PD_SCK_GPIO
+        int "PD/SCK GPIO number"
+        default 15 if IDF_TARGET_ESP8266 || IDF_TARGET_ESP32C3
+        help
+            GPIO number connected to PD/SCK pin
+
+    config EXAMPLE_DOUT_GPIO
+        int "DOUT GPIO number"
+        default 12 if IDF_TARGET_ESP8266 || IDF_TARGET_ESP32C3
+        help
+            GPIO number connected to DOUT pin
+
+    config EXAMPLE_AVG_TIMES
+        int "Samples to average"
+        default 5
+endmenu
