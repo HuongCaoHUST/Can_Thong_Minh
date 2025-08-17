@@ -7,7 +7,7 @@ Phần cứng được thiết kế trên **Altium Designer**, tích hợp cảm
 ---
 
 ## 🛠️ Công nghệ sử dụng
-- ![ESP-IDF](https://img.shields.io/badge/ESP--IDF-0066CC?logo=espressif&logoColor=white) Nền tảng phát triển cho ESP8266  
+- ![ESP-IDF](https://img.shields.io/badge/ESP--IDF-E7352C?style=flat&logo=espressif&logoColor=white) Nền tảng phát triển cho ESP8266  
 - 🌐 HTTP Request – Gửi dữ liệu lên server qua phương thức POST  
 - 🖥️ Altium Designer – Thiết kế mạch nguyên lý, PCB và 3D  
 
